@@ -3,13 +3,6 @@ import java.util.HashMap;
 import java.util.IntSummaryStatistics;
 import java.util.Iterator;
 
-/**
- * Created with IntelliJ IDEA.
- * User: admin
- * Date: 07.10.15
- * Time: 13:27
- * To change this template use File | Settings | File Templates.
- */
 public class AccessMatrix {
     HashMap<String,HashMap<String,Integer>> subjects;
     HashMap<String, HashMap<String,Integer>> objects;
@@ -85,29 +78,43 @@ public class AccessMatrix {
             System.out.println(" Права: " + convert(subjs.get(subject))+" Субъект: " + subject);
     }
 
+    public void enterRights(String subject, String object, String rights) {
+        char[] r = rights.toLowerCase().toCharArray();
+        for (int i = 0; i < r.length; i++)
+            enterRight(subject,object,r[i]);
+    }
+
+    public void deleteRights(String subject, String object, String rights) {
+        char[] r = rights.toLowerCase().toCharArray();
+        for (int i = 0; i < r.length; i++)
+            deleteRight(subject,object,r[i]);
+    }
+
     public int convert(char access){
         switch (access) {
-            case 'r':
-                return 8;
-            case 'w':
-                return 4;
-            case 'x':
-                return 2;
             case 'o':
+                return 8;
+            case 'r':
+                return 4;
+            case 'w':
+                return 2;
+            case 'e':
                 return 1;
+
         }
         return 0;
     }
+
     public String convert(int marker){
         String result = "";
         if ((marker & 8) == 8)
-                result+="r";
+                result+="o";
         if ((marker & 4) == 4)
-            result+="w";
+            result+="r";
         if ((marker & 2) == 2)
-            result+="x";
+            result+="w";
         if ((marker & 1) == 1)
-            result+="o";
+            result+="e";
         return result;
     }
 }
